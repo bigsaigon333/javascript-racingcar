@@ -1,7 +1,7 @@
 import { MESSAGE, SELECTOR, CONSTANT } from "./constants.js";
 import CarModel from "./CarModel.js";
 import ViewController from "./ViewController.js";
-import { $, getLapResult, splitCarName, sleep } from "./utils.js";
+import { $, getLapResult, splitCarName } from "./utils.js";
 
 export class Controller {
   constructor() {
@@ -75,9 +75,7 @@ export class Controller {
 
       this.viewController.readyGameProgress();
       for (let i = 0; i < lapCount; i++) {
-        await sleep(CONSTANT.DELAY.ONE_LAP_PROGRESS);
-
-        const lapResult = getLapResult(this.carModels.length);
+        const lapResult = await getLapResult(this.carModels.length);
         this.moveCarAlongWith(lapResult);
         this.viewController.renderGameProgress(lapResult);
       }

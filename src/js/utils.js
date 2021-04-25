@@ -1,4 +1,4 @@
-import { CLASSNAME, RANDOM_NUMBER } from "./constants.js";
+import { CLASSNAME, CONSTANT, RANDOM_NUMBER } from "./constants.js";
 
 // minInteger와 maxInteger를 사용하지 않고 매개변수인 min, max 를 그대로 사용하여 반환값을 계산하는 경우에는
 // min 이하 또는 max 이상의 정수가 반환될 가능성이 있다.
@@ -19,8 +19,14 @@ const canMoveForward = () => {
   return getRandomIntInclusive(MIN, MAX) >= MOVING_POINT;
 };
 
-export const getLapResult = (numberCars) =>
-  Array.from(Array(numberCars), canMoveForward);
+export const getLapResult = (numberCars) => {
+  return new Promise((resolve) => {
+    setTimeout(
+      () => resolve(Array.from({ length: numberCars }, canMoveForward)),
+      CONSTANT.DELAY.ONE_LAP_PROGRESS
+    );
+  });
+};
 
 //공백문자가 포함된 이름의 경우 아래와 같이 처리한다.
 // 1. 문자열 처음과 끝에 공백문자가 포함된 경우: 무시한다
@@ -47,5 +53,3 @@ export const hideElement = ($element) =>
 export const disable = (selector) => ($(selector).disabled = true);
 
 export const enable = (selector) => ($(selector).disabled = false);
-
-export const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
